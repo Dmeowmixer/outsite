@@ -9,12 +9,13 @@ class Locations extends Component {
   fetchLocations = () => {
     fetch('/locations')
       .then(res => res.json())
-      .then(data => this.setState({data}));
+      .then(locations => this.setState({locations}));
   }
   componentDidMount(){
     this.fetchLocations();
   }
   render() {
+    console.log(this.state.locations);
     return(
       <div className="locations">
         <h1>Locations</h1>
