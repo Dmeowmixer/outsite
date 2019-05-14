@@ -6,11 +6,13 @@ class Locations extends Component {
     super(props);
     this.handleSelect = this.handleSelect.bind(this);
     this.queryAvailability = this.queryAvailability.bind(this);
+    this.locationClick = this.locationClick.bind(this);
   }
   state = {
     locations: [],
     startDate: [],
     endDate: [],
+    targetLocation: []
   }
 
   fetchLocations = () => {
@@ -23,6 +25,10 @@ class Locations extends Component {
       })
   }
 
+  locationClick = (location) => {
+    this.setState({targetLocation: location})
+  }
+
   componentDidMount(){
     this.fetchLocations();
   }
@@ -33,6 +39,7 @@ class Locations extends Component {
   }
 
   queryAvailability() {
+    // Would be nice to hide checkAvailability button unless date ranges are selected (both start and enddate states are true)
     // console.log(this.state.startDate, this.state.endDate); Can be sent to API endpoint to query availability
     const foundObjects = this.state.locations.filter(locations => {
       return locations.available === true
@@ -56,11 +63,11 @@ class Locations extends Component {
         {this.state.locations.map(location => {
           if(location.country === "US"){
             return(
-              <li key={location.id} className="USA">{location.name}</li>
+              <li onClick={() => this.locationClick(location)} key={location.id} className="USA">{location.name}{location.city}</li>
             )
           }else{
             return (
-              <li key={location.id} className="international">{location.name}</li>
+              <li onClick={() => this.locationClick(location)} key={location.id} className="international">{location.name}{location.city}</li>
             )
           }
         })}
