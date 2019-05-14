@@ -5,26 +5,22 @@ class Locations extends Component {
   constructor(props){
     super(props);
     this.handleSelect = this.handleSelect.bind(this);
+    this.queryAvailability = this.queryAvailability.bind(this);
   }
   state = {
-    us:[],
-    international: [],
+    locations: [],
     startDate: [],
-    endDate: []
+    endDate: [],
   }
 
-  // Retrieve locations JSON through API
   fetchLocations = () => {
     fetch('/locations')
       .then(res => res.json())
       .then(locations => {
-        const unitedStates = locations.filter(x => x.country === "US" );
-        const international = locations.filter(x => x.country !== "US");
-        this.setState({us: unitedStates});
-        this.setState({international: international});
+        locations.filter(x => {
+          return this.setState({locations});
+        })
       })
-      // .then(locations => this.setState({ locations }))
-      // On fetch, map through or filter through the locations and insert them into international or us locations
   }
 
   componentDidMount(){
@@ -32,10 +28,18 @@ class Locations extends Component {
   }
 
   handleSelect(range){
-    this.setState({startDate: range.startDate});
-    this.setState({endDate: range.endDate});
-    // console.log(range.startDate);
-    // console.log(range.endDate._d);
+    this.setState({startDate: range.startDate._d});
+    this.setState({endDate: range.endDate._d});
+  }
+
+  queryAvailability() {
+    // console.log(this.state.startDate, this.state.endDate); Can be sent to API endpoint to query availability
+    const foundObjects = this.state.locations.filter(locations => {
+      return locations.available === true
+    })
+    if(foundObjects.length > 0) {
+      this.setState({locations: foundObjects})
+    }
   }
 
   render() {
@@ -46,31 +50,20 @@ class Locations extends Component {
           calendars="1"
           onInit={this.handleSelect}
           onChange={this.handleSelect}
-
         />
+        <button onClick={this.queryAvailability}>Check Availability</button>
         <h1>Locations</h1>
-        <h1>U.S.A</h1>
-        {this.state.us.map(location => 
-          <div key={location.id}>
-            <ul>
-              <li>{location.name}</li>
-              <li>{location.city}</li>
-              <li>{location.country}</li>
-              <li>{location.numberOfBeds}</li>
-            </ul>
-          </div>
-        )}
-        <h1>International</h1>
-        {this.state.international.map(location => 
-          <div key={location.id}>
-            <ul>
-              <li>{location.name}</li>
-              <li>{location.city}</li>
-              <li>{location.country}</li>
-              <li>{location.numberOfBeds}</li>
-            </ul>
-          </div>
-        )}
+        {this.state.locations.map(location => {
+          if(location.country === "US"){
+            return(
+              <li key={location.id} className="USA">{location.name}</li>
+            )
+          }else{
+            return (
+              <li key={location.id} className="international">{location.name}</li>
+            )
+          }
+        })}
       </div>
     );
   }
