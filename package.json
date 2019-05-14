@@ -5,7 +5,9 @@
   "dependencies": {
     "express": "^4.16.4",
     "react": "^16.8.6",
+    "react-date-range": "^0.9.4",
     "react-dom": "^16.8.6",
+    "react-helmet": "^5.2.1",
     "react-scripts": "3.0.1"
   },
   "scripts": {
