@@ -1,0 +1,31 @@
+a:hover{
+  text-decoration: none !important;
+}
+div.locations{
+  margin-top:40px;
+}
+div.locationsWrapper{
+  margin-top:40px;
+}
+.card-img{
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+div.card{
+  height: 100px;
+  box-shadow: 4px 4px 8px 0 rgba(0,0,0,.2);
+  margin: 10px;
+  border-radius: 10px;
+}
+div.card-body{
+  color: black;
+  font-weight: bold;
+  text-align:left;
+  padding: .8rem;
+  margin-left: -30px;
+  margin-top: 10px;
+}
+h4.locationCategory{
+  text-align:left;
+}

@@ -57,14 +57,10 @@ class Navigation extends Component {
                 </DropdownToggle>
                 <DropdownMenu right>
                   <DropdownItem>
-                    Option 1
+                    Hello
                   </DropdownItem>
                   <DropdownItem>
-                    Option 2
-                  </DropdownItem>
-                  <DropdownItem divider />
-                  <DropdownItem>
-                    Reset
+                    World
                   </DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>

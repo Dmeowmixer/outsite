@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import queryString from 'query-string';
+import { Container, Row, Col, Jumbotron } from 'reactstrap';
+import './LocationDetails.css';
 
 class LocationDetails extends Component {
   state = {
@@ -13,30 +14,30 @@ class LocationDetails extends Component {
     if(state && state.location){
       return this.setState(state)
     }
-    const { locationName } = this.props.match.params;
-    const { startDate, endDate } = queryString.parse(this.props.location.search);
-    // fetch()
+    const { startDate, endDate } = this.props.location.search;
     this.setState({startDate: new Date(startDate), endDate: new Date(endDate)})
   }
 
   render(){
-    const dateRange = queryString.parse(this.props.location.search)
     return(
-      <div>
+      <Container>
+        <Col>
           <h4>You have selected </h4>
-          <p>From: {dateRange.startDate} To: {dateRange.endDate}</p>
-          <h1>Location Details: </h1>
-        <ul>
-          <li> {this.state.location.name}</li>
-          <li> {this.state.location.city}</li>
-          <li> {this.state.location.country}</li>
-          <li> {this.state.location.numberOfBeds}</li>
-          <li> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam in dolores praesentium eveniet iusto saepe. Libero quam, adipisci ipsam laboriosam quidem enim, odit possimus unde modi, itaque reiciendis! Accusantium, rerum.</li>
-          <li> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam in dolores praesentium eveniet iusto saepe. Libero quam, adipisci ipsam laboriosam quidem enim, odit possimus unde modi, itaque reiciendis! Accusantium, rerum.</li>
-          <li> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam in dolores praesentium eveniet iusto saepe. Libero quam, adipisci ipsam laboriosam quidem enim, odit possimus unde modi, itaque reiciendis! Accusantium, rerum.</li>
-          <li><img src={this.state.location.image} alt=""/></li>
-        </ul>
-      </div>
+          <p>From: {this.state.startDate.toString()} To: {this.state.endDate.toString()}</p>
+          <Jumbotron>
+            <h1> Welcome to {this.state.location.name}</h1>
+            <h2> {this.state.location.city}, {this.state.location.country}</h2>
+            <img className="locationImage" width="1000px" src={this.state.location.image} alt="Outsite Location Image"/>
+            <div>
+              <h1>Location Details: </h1>
+              <p> Lorem ipsum dolor sit amet, consectetur adipisicing ept. Quisquam in dolores praesentium eveniet iusto saepe. pbero quam, adipisci ipsam laboriosam quidem enim, odit possimus unde modi, itaque reiciendis! Accusantium, rerum.</p>
+              <p> Lorem ipsum dolor sit amet, consectetur adipisicing ept. Quisquam in dolores praesentium eveniet iusto saepe. pbero quam, adipisci ipsam laboriosam quidem enim, odit possimus unde modi, itaque reiciendis! Accusantium, rerum.</p>
+              <p> Lorem ipsum dolor sit amet, consectetur adipisicing ept. Quisquam in dolores praesentium eveniet iusto saepe. pbero quam, adipisci ipsam laboriosam quidem enim, odit possimus unde modi, itaque reiciendis! Accusantium, rerum.</p>
+              <p> Number Of Beds: {this.state.location.numberOfBeds}</p>
+            </div>
+          </Jumbotron>
+        </Col>
+      </Container>
     )
   }
 }

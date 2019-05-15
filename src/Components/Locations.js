@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { DateRange } from 'react-date-range';
-import { Container, Row, Col, Card, CardImg, CardText, CardBody,
+import { Container, Row, Col, Card, CardImg, CardBody,
   CardTitle, CardSubtitle, Button } from 'reactstrap';
+import './Locations.css';
 
 class Locations extends Component {
   constructor(props){
@@ -51,64 +52,37 @@ class Locations extends Component {
 
   render() {
     const { startDate,endDate } = this.state;
+    const isEnabled = this.state.startDate !== [] && this.state.endDate !== [];
     return(
       <Container>
         <div className="locations">
-          <h3>Select your desired stay duration</h3>
+          <h2>Select your desired stay duration</h2>
           <DateRange
             calendars="1"
             onInit={this.handleSelect}
             onChange={this.handleSelect}
           />
-          <button onClick={this.queryAvailability}>Show available locations</button>
-          <h1>Locations</h1>
+          <Button disabled={!isEnabled} color="info" onClick={this.queryAvailability}>Show available locations</Button>
           <Row className="locationsWrapper">
-            {this.state.locations.map(location => {
-              if(location.country === "US"){
-                return(
-                  <Col sm="6">
-                    <div key={location.id} className="USA">
-                      <Link 
-                        key={location.id} 
-                        to={{
-                          pathname: `/locations/${location.name}?startDate=${startDate.toDateString()}&endDate=${endDate.toDateString()}`,
-                          state: { location, startDate, endDate }
-                         }}>
-                         <Col sm="6">
-                           <Row>
-                            <Card>
-                              <Row>
-                                <Col sm="4">
-                                  <CardImg width="100%" src={location.image} alt="Card image cap" />
-                                </Col>
-                                <Col sm="8">
-                                  <CardBody>
-                                    <CardTitle>{location.city}</CardTitle>
-                                    <CardSubtitle>{location.name}</CardSubtitle>
-                                  </CardBody>
-                                </Col>
-                              </Row>
-                            </Card>
-                           </Row>
-                         </Col>
-                      </Link>
-                    </div>
-                  </Col>
-                )
-              }else{
-                return (
-                  <Col sm="6">
-                    <div key={location.id} className="international">
-                      <Link 
-                        key={location.id} 
-                        to={`/locations/${location.name}`}
-                        state={{ location, startDate, endDate }}>
-                          <Col sm="6">
-                            <Row>
+            <Col>
+              <div className="USA">
+                <h4 className="locationCategory">U.S.A</h4>
+                <Row>
+                  {this.state.locations.map(location => {
+                    if(location.country === "US"){
+                      return(
+                        <Col key={location.id} sm="6">
+                          <Link 
+                            key={location.id} 
+                            to={{
+                              pathname: `/locations/${location.name}?startDate=${startDate.toDateString()}&endDate=${endDate.toDateString()}`,
+                              state: { location, startDate, endDate }
+                             }}>
+                             <Row>
                               <Card>
                                 <Row>
                                   <Col sm="5">
-                                    <CardImg width="100%" src={location.image} alt="Card image cap" />
+                                    <CardImg src={location.image} alt="Card image cap" />
                                   </Col>
                                   <Col sm="7">
                                     <CardBody>
@@ -118,14 +92,52 @@ class Locations extends Component {
                                   </Col>
                                 </Row>
                               </Card>
-                            </Row>
-                          </Col>
-                      </Link>
-                    </div>
-                  </Col>
-                )
-              }
-            })}
+                             </Row>
+                          </Link>
+                        </Col>
+                      )
+                    }
+                  })}
+                </Row>
+              </div>
+            </Col>
+            <Col>
+              <div className="international">
+                <h4 className="locationCategory">International</h4>
+                <Row>
+                  {this.state.locations.map(location => {
+                    if(location.country !== "US"){
+                      return(
+                        <Col key={location.id} sm="6">
+                          <Link 
+                            key={location.id} 
+                            to={{
+                              pathname: `/locations/${location.name}?startDate=${startDate.toDateString()}&endDate=${endDate.toDateString()}`,
+                              state: { location, startDate, endDate }
+                             }}>
+                             <Row>
+                              <Card>
+                                <Row>
+                                  <Col sm="5">
+                                    <CardImg src={location.image} alt="Card image cap" />
+                                  </Col>
+                                  <Col sm="7">
+                                    <CardBody>
+                                      <CardTitle>{location.city}</CardTitle>
+                                      <CardSubtitle>{location.name}</CardSubtitle>
+                                    </CardBody>
+                                  </Col>
+                                </Row>
+                              </Card>
+                             </Row>
+                          </Link>
+                        </Col>
+                      )
+                    }
+                  })}
+                </Row>
+              </div>
+            </Col>
           </Row>
         </div>
       </Container>
