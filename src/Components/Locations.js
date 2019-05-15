@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { DateRange } from 'react-date-range';
-import { Card, CardImg, CardText, CardBody,
+import { Container, Row, Col, Card, CardImg, CardText, CardBody,
   CardTitle, CardSubtitle, Button } from 'reactstrap';
 
 class Locations extends Component {
@@ -52,50 +52,84 @@ class Locations extends Component {
   render() {
     const { startDate,endDate } = this.state;
     return(
-      <div className="locations">
-        <h3>Select your desired stay duration</h3>
-        <DateRange
-          calendars="1"
-          onInit={this.handleSelect}
-          onChange={this.handleSelect}
-        />
-        <button onClick={this.queryAvailability}>Check Availability</button>
-        <h1>Locations</h1>
-          {this.state.locations.map(location => {
-            if(location.country === "US"){
-              return(
-                <Link 
-                  key={location.id} 
-                  to={{
-                    pathname: `/locations/${location.name}?startDate=${startDate.toDateString()}&endDate=${endDate.toDateString()}`,
-                    state: { location, startDate, endDate }
-                   }}>
-                    <li key={location.id} className="USA">{location.name}{location.city}</li>
-                </Link>
-              )
-            }else{
-              return (
-                <Link 
-                  key={location.id} 
-                  to={`/locations/${location.name}`}
-                  state={{ location, startDate, endDate }}>
-                  <li key={location.id} className="international">{location.name}{location.city}</li>
-                </Link>
-              )
-            }
-          })}
-      </div>
+      <Container>
+        <div className="locations">
+          <h3>Select your desired stay duration</h3>
+          <DateRange
+            calendars="1"
+            onInit={this.handleSelect}
+            onChange={this.handleSelect}
+          />
+          <button onClick={this.queryAvailability}>Show available locations</button>
+          <h1>Locations</h1>
+          <Row className="locationsWrapper">
+            {this.state.locations.map(location => {
+              if(location.country === "US"){
+                return(
+                  <Col sm="6">
+                    <div key={location.id} className="USA">
+                      <Link 
+                        key={location.id} 
+                        to={{
+                          pathname: `/locations/${location.name}?startDate=${startDate.toDateString()}&endDate=${endDate.toDateString()}`,
+                          state: { location, startDate, endDate }
+                         }}>
+                         <Col sm="6">
+                           <Row>
+                            <Card>
+                              <Row>
+                                <Col sm="4">
+                                  <CardImg width="100%" src={location.image} alt="Card image cap" />
+                                </Col>
+                                <Col sm="8">
+                                  <CardBody>
+                                    <CardTitle>{location.city}</CardTitle>
+                                    <CardSubtitle>{location.name}</CardSubtitle>
+                                  </CardBody>
+                                </Col>
+                              </Row>
+                            </Card>
+                           </Row>
+                         </Col>
+                      </Link>
+                    </div>
+                  </Col>
+                )
+              }else{
+                return (
+                  <Col sm="6">
+                    <div key={location.id} className="international">
+                      <Link 
+                        key={location.id} 
+                        to={`/locations/${location.name}`}
+                        state={{ location, startDate, endDate }}>
+                          <Col sm="6">
+                            <Row>
+                              <Card>
+                                <Row>
+                                  <Col sm="5">
+                                    <CardImg width="100%" src={location.image} alt="Card image cap" />
+                                  </Col>
+                                  <Col sm="7">
+                                    <CardBody>
+                                      <CardTitle>{location.city}</CardTitle>
+                                      <CardSubtitle>{location.name}</CardSubtitle>
+                                    </CardBody>
+                                  </Col>
+                                </Row>
+                              </Card>
+                            </Row>
+                          </Col>
+                      </Link>
+                    </div>
+                  </Col>
+                )
+              }
+            })}
+          </Row>
+        </div>
+      </Container>
     );
   }
 }
 export default Locations
-
-// Refactor links ->
-            // <ul>
-// Filter for US
-            //   {locations.map(location => <li><Link>sdhkjsadha</Link></li>)}
-            // </ul>
-            // <ul>
-// filter for international
-            //   {locations.map(location => <li><Link>sdhkjsadha</Link></li>)}
-            // </ul>
