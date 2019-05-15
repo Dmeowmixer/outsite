@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { DateRange } from 'react-date-range';
+import { Card, CardImg, CardText, CardBody,
+  CardTitle, CardSubtitle, Button } from 'reactstrap';
 
 class Locations extends Component {
   constructor(props){
     super(props);
     this.handleSelect = this.handleSelect.bind(this);
     this.queryAvailability = this.queryAvailability.bind(this);
-    this.locationClick = this.locationClick.bind(this);
   }
+
   state = {
     locations: [],
     startDate: [],
@@ -25,10 +28,6 @@ class Locations extends Component {
       })
   }
 
-  locationClick = (location) => {
-    this.setState({targetLocation: location})
-  }
-
   componentDidMount(){
     this.fetchLocations();
   }
@@ -41,6 +40,7 @@ class Locations extends Component {
   queryAvailability() {
     // Would be nice to hide checkAvailability button unless date ranges are selected (both start and enddate states are true)
     // console.log(this.state.startDate, this.state.endDate); Can be sent to API endpoint to query availability
+    // Currently mimics successful API query by filtering for available.
     const foundObjects = this.state.locations.filter(locations => {
       return locations.available === true
     })
@@ -50,9 +50,10 @@ class Locations extends Component {
   }
 
   render() {
+    const { startDate,endDate } = this.state;
     return(
       <div className="locations">
-        <h3>Select your desired dates, and check available units</h3>
+        <h3>Select your desired stay duration</h3>
         <DateRange
           calendars="1"
           onInit={this.handleSelect}
@@ -60,19 +61,41 @@ class Locations extends Component {
         />
         <button onClick={this.queryAvailability}>Check Availability</button>
         <h1>Locations</h1>
-        {this.state.locations.map(location => {
-          if(location.country === "US"){
-            return(
-              <li onClick={() => this.locationClick(location)} key={location.id} className="USA">{location.name}{location.city}</li>
-            )
-          }else{
-            return (
-              <li onClick={() => this.locationClick(location)} key={location.id} className="international">{location.name}{location.city}</li>
-            )
-          }
-        })}
+          {this.state.locations.map(location => {
+            if(location.country === "US"){
+              return(
+                <Link 
+                  key={location.id} 
+                  to={{
+                    pathname: `/locations/${location.name}?startDate=${startDate.toDateString()}&endDate=${endDate.toDateString()}`,
+                    state: { location, startDate, endDate }
+                   }}>
+                    <li key={location.id} className="USA">{location.name}{location.city}</li>
+                </Link>
+              )
+            }else{
+              return (
+                <Link 
+                  key={location.id} 
+                  to={`/locations/${location.name}`}
+                  state={{ location, startDate, endDate }}>
+                  <li key={location.id} className="international">{location.name}{location.city}</li>
+                </Link>
+              )
+            }
+          })}
       </div>
     );
   }
 }
 export default Locations
+
+// Refactor links ->
+            // <ul>
+// Filter for US
+            //   {locations.map(location => <li><Link>sdhkjsadha</Link></li>)}
+            // </ul>
+            // <ul>
+// filter for international
+            //   {locations.map(location => <li><Link>sdhkjsadha</Link></li>)}
+            // </ul>
