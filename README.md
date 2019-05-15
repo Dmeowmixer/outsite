@@ -6,6 +6,11 @@ In the project directory, you can run:
 
 ### `npm run dev`
 
+or in the project directory run
+###`nodemon server.js`
+and
+###`npm start`
+
 NodeJS/Express Backend hosting API
 React front-end, Fetch, styled with ReactStrap and CSS
 
