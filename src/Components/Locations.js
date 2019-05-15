@@ -52,7 +52,6 @@ class Locations extends Component {
 
   render() {
     const { startDate,endDate } = this.state;
-    const isEnabled = this.state.startDate !== [] && this.state.endDate !== [];
     return(
       <Container>
         <div className="locations">
@@ -62,7 +61,7 @@ class Locations extends Component {
             onInit={this.handleSelect}
             onChange={this.handleSelect}
           />
-          <Button disabled={!isEnabled} color="info" onClick={this.queryAvailability}>Show available locations</Button>
+          <Button color="info" onClick={this.queryAvailability}>Show available locations</Button>
           <Row className="locationsWrapper">
             <Col>
               <div className="USA">

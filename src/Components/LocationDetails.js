@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Jumbotron } from 'reactstrap';
+import { Container, Col, Jumbotron } from 'reactstrap';
 import './LocationDetails.css';
 
 class LocationDetails extends Component {
@@ -27,9 +27,9 @@ class LocationDetails extends Component {
           <Jumbotron>
             <h1> Welcome to {this.state.location.name}</h1>
             <h2> {this.state.location.city}, {this.state.location.country}</h2>
-            <img className="locationImage" width="1000px" src={this.state.location.image} alt="Outsite Location Image"/>
+            <img className="locationImage" width="1000px" src={this.state.location.image} alt="Outsite Location"/>
             <div>
-              <h1>Location Details: </h1>
+              <h2>Location Details: </h2>
               <p> Lorem ipsum dolor sit amet, consectetur adipisicing ept. Quisquam in dolores praesentium eveniet iusto saepe. pbero quam, adipisci ipsam laboriosam quidem enim, odit possimus unde modi, itaque reiciendis! Accusantium, rerum.</p>
               <p> Lorem ipsum dolor sit amet, consectetur adipisicing ept. Quisquam in dolores praesentium eveniet iusto saepe. pbero quam, adipisci ipsam laboriosam quidem enim, odit possimus unde modi, itaque reiciendis! Accusantium, rerum.</p>
               <p> Lorem ipsum dolor sit amet, consectetur adipisicing ept. Quisquam in dolores praesentium eveniet iusto saepe. pbero quam, adipisci ipsam laboriosam quidem enim, odit possimus unde modi, itaque reiciendis! Accusantium, rerum.</p>
